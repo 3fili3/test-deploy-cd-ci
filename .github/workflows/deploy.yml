@@ -7,7 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: 3fili3/test-deploy-cd-ci
-
+#
 jobs:
   build:
     runs-on: ubuntu-latest
