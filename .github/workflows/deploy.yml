@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: fil-software-networking/test-deploy-cd-ci
+  IMAGE_NAME: 3fili3/test-deploy-cd-ci
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ secrets.GIT_TOKEN }}
 
       - id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
@@ -39,26 +39,26 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Configure SSH
+  #       run: |
+  #         mkdir -p ~/.ssh
+  #         echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+  #         chmod 600 ~/.ssh/id_ed25519
 
-          ssh-keyscan -p ${{ secrets.VPS_PORT }} \
-          -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+  #         ssh-keyscan -p ${{ secrets.VPS_PORT }} \
+  #         -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy
-        run: |
-          ssh \
-          -i ~/.ssh/id_ed25519 \
-          -p ${{ secrets.VPS_PORT }} \
-          ${{ secrets.DEPLOY_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-          cd /home/debian/apps/test-deploy-cd-ci
-          docker compose pull
-          docker compose up -d
-          EOF
+  #     - name: Deploy
+  #       run: |
+  #         ssh \
+  #         -i ~/.ssh/id_ed25519 \
+  #         -p ${{ secrets.VPS_PORT }} \
+  #         ${{ secrets.DEPLOY_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+  #         cd /home/debian/apps/test-deploy-cd-ci
+  #         docker compose pull
+  #         docker compose up -d
+  #         EOF
