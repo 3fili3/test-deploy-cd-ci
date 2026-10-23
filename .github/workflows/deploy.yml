@@ -58,7 +58,7 @@ jobs:
           -i ~/.ssh/id_ed25519 \
           -p ${{ secrets.VPS_PORT }} \
           ${{ secrets.DEPLOY_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-          cd /home/debian/apps/test-deploy-cd-ci
+          cd /home/debian/apps/apps-test-ci-cd
           docker compose pull
           docker compose up -d
           EOF
