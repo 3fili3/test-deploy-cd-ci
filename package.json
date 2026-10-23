@@ -1,0 +1,13 @@
+{
+  "name": "test-deploy-cd-ci",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "dev": "node --watch src/main.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
